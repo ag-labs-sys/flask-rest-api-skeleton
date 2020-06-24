@@ -1,0 +1,217 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Flask RESTFul API",
+    "version": "1.0.0",
+    "title": "Flask Restful API",
+    "contact": {
+      "email": "shehrozebhatt@gmail.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host": "0.0.0.0:5000",
+  "basePath": "/api/v1",
+  "tags": [
+    {
+      "name": "Tasks",
+      "description": "Creating and Manipulating tasks"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/tasks/": {
+      "get": {
+        "tags": [
+          "task"
+        ],
+        "summary": "get all tasks",
+        "description": "Returns all task",
+        "operationId": "getTasks",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Tasks"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Task not found"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "task"
+        ],
+        "summary": "Create a new task",
+        "description": "",
+        "operationId": "addTask",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Task object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TaskRequestPostBody"
+            }
+          }
+        ],
+        "responses": {
+          "422": {
+            "description": "Invalid input"
+          },
+          "201": {
+            "description": "Task created"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "task"
+        ],
+        "summary": "Update an existing pet",
+        "description": "",
+        "operationId": "updatePet",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Task object that needs to be updated",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Task"
+            }
+          }
+        ],
+        "responses": {
+
+          "404": {
+            "description": "Task not found. Invalid ID"
+          },
+          "200": {
+            "description": "Task updated"
+          }
+        }
+      }
+    },
+    "/tasks/{taskID}": {
+      "get": {
+        "tags": [
+          "task"
+        ],
+        "summary": "Find task by ID",
+        "description": "Returns a single task",
+        "operationId": "getTaskById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "taskID",
+            "in": "path",
+            "description": "ID of task to return",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Task"
+            }
+          },
+          "404": {
+            "description": "Task not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "task"
+        ],
+        "summary": "Deletes a task",
+        "description": "",
+        "operationId": "deleteTasl",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "taskID",
+            "in": "path",
+            "description": "task id to delete",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Task deleted"
+          },
+          "404": {
+            "description": "Task not found. Invalid ID"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Task": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "Tasks": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Task"
+      }
+    },
+    "TaskRequestPostBody": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string",
+          "format": "string"
+        }
+      }
+    }
+  }
+}
